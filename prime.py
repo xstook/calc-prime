@@ -33,7 +33,7 @@ def is_prime(n):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-s", "--start", type=int, help="Specify the starting number.")
+    parser.add_argument("-s", "--start", help="Specify the starting number.")
     parser.add_argument("-p", "--processes", type=int, help="Specify the number of processes to use. If not specified, max amount will be used.")
     args = parser.parse_args()
     
@@ -50,8 +50,7 @@ def main():
     start_time = time.time()
     start_number = 2
     if args.start is not None:
-        start_number = args.start
-    #while (start_number < 100000):
+        start_number = int(args.start.replace(",",""))
     while(True):
         process_results = [process_pool.apply_async(is_prime, args=(n,)) for n in range(start_number, start_number + processes_count)]
         start_number = start_number + processes_count
@@ -59,7 +58,7 @@ def main():
         for p in process_results:
             prime = p.get()
             if prime is not None:
-                print("\rLargest prime found is " + str(prime) + "  ", end='')
+                print("\rLargest prime found is " + "{:,}".format(prime) + "  ", end='')
             #print(p.get())
 
 
