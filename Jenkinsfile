@@ -9,7 +9,7 @@ pipeline {
     }
     stage('Calculate') {
       steps {
-        sh '.prime.py -b'
+        sh './prime.py -b'
       }
     }
     stage('Print Done') {
